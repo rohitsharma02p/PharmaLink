@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { User,Profile } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -79,6 +79,16 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+
+const createProfile = async (profileBody) => {
+  // if (await Profile.isProfileCreated(userBody.email)) {
+  //   throw new ApiError(httpStatus.BAD_REQUEST, 'Profile is already created');
+  // }
+  return Profile.create(profileBody);
+};
+
+
+
 module.exports = {
   createUser,
   queryUsers,
@@ -86,4 +96,5 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
+  createProfile
 };
