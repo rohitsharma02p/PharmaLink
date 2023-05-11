@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const profileSchema = new mongoose.Schema({
   user: {
     type: mongoose.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true
   },
   mobileNumber: {
@@ -61,9 +61,15 @@ const profileSchema = new mongoose.Schema({
   }
 });
 
-profileSchema.statics.isProfileCreated = async function (email, excludeUserId) {
-  const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
-  return !!user;
+profileSchema.statics.isProfileCreated = async function (
+  userId,
+  excludeUserId
+) {
+  const profile = await this.findOne({
+    user: userId,
+    _id: { $ne: excludeUserId }
+  });
+  return !!profile;
 };
 
 const Profile = mongoose.model("Profile", profileSchema);
