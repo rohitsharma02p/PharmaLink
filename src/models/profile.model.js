@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { paginate } = require("./plugins");
 
 const profileSchema = new mongoose.Schema({
   user: {
@@ -60,6 +61,7 @@ const profileSchema = new mongoose.Schema({
     type: String
   }
 });
+profileSchema.plugin(paginate);
 
 profileSchema.statics.isProfileCreated = async function (
   userId,

@@ -3,16 +3,44 @@ const pick = require("../utils/pick");
 const ApiError = require("../utils/ApiError");
 const catchAsync = require("../utils/catchAsync");
 const { userService } = require("../services");
+const {PatientDTO} = require("../DTOs/index")
+// console.log(patientDTO("HI there"))
+  // Sample usage of the PatientDTO
+  const patientName = { firstName: "John", lastName: "Doe" };
+  const address = {
+    street: "123 Main St",
+    city: "City",
+    state: "State",
+    postalCode: "12345"
+  };
+  const email = { emailAddress: "johndoe@example.com" };
+  const phoneNumber = { phoneNumber: "123-456-7890" };
+  const uploadedReport = {
+    reportName: "Report.pdf",
+    fileType: "PDF",
+    fileSize: "1.2MB"
+  };
+
+  // const patient = new PatientDTO(
+  //   patientName,
+  //   address,
+  //   email,
+  //   phoneNumber,
+  //   uploadedReport
+  // );
+// console.log(patient)
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
-  res.status(httpStatus.CREATED).send(user);
+  const patient = new PatientDTO(user)
+  res.status(httpStatus.CREATED).send(patient);
 });
 
 const getUsers = catchAsync(async (req, res) => {
   const filter = pick(req.query, ["name", "role"]);
   const options = pick(req.query, ["sortBy", "limit", "page"]);
   const result = await userService.queryUsers(filter, options);
+
   res.send(result);
 });
 
