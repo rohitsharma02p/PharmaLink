@@ -62,7 +62,6 @@ const paginate = (schema) => {
         totalPages,
         totalResults,
       };
-      console.log(result)
       return Promise.resolve(result);
     });
   };
