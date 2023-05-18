@@ -25,6 +25,7 @@ const createUser = async (userBody) => {
  */
 const queryUsers = async (filter, options) => {
   const users = await Profile.paginate(filter, options);
+  console.log(users)
   return users;
 };
 
@@ -34,7 +35,7 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findById(id);
+  return Profile.findById(id);
 };
 
 /**

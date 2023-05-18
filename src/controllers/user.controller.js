@@ -32,8 +32,7 @@ const {PatientDTO} = require("../DTOs/index")
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
-  const patient = new PatientDTO(user)
-  res.status(httpStatus.CREATED).send(patient);
+  res.status(httpStatus.CREATED).send(user);
 });
 
 const getUsers = catchAsync(async (req, res) => {
