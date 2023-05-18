@@ -27,7 +27,7 @@ const loginUserWithEmailAndPassword = async (email, password) => {
 const logout = async (refreshToken) => {
   const refreshTokenDoc = await Token.findOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
   if (!refreshTokenDoc) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
+    throw new ApiError(httpStatus.NOT_FOUND, 'User Not found');
   }
   await refreshTokenDoc.remove();
 };
@@ -40,7 +40,7 @@ const logout = async (refreshToken) => {
 const refreshAuth = async (refreshToken) => {
   try {
     const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
-    const user = await userService.getUserById(refreshTokenDoc.user);
+    const user = await userService.getRefreshUserById(refreshTokenDoc.user);
     if (!user) {
       throw new Error();
     }

@@ -25,7 +25,6 @@ const createUser = async (userBody) => {
  */
 const queryUsers = async (filter, options) => {
   const users = await Profile.paginate(filter, options);
-  console.log(users)
   return users;
 };
 
@@ -36,6 +35,9 @@ const queryUsers = async (filter, options) => {
  */
 const getUserById = async (id) => {
   return Profile.findById(id);
+};
+const getRefreshUserById = async (id) => {
+  return User.findById(id);
 };
 
 /**
@@ -94,5 +96,6 @@ module.exports = {
   getUserByEmail,
   updateUserById,
   deleteUserById,
-  createProfile
+  createProfile,
+  getRefreshUserById
 };
