@@ -25,7 +25,6 @@ const createUser = async (userBody) => {
  */
 const queryUsers = async (filter, options) => {
   const users = await User.paginate(filter, options);
-console.log(users)
   return users;
 };
 
@@ -35,10 +34,10 @@ console.log(users)
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return Profile.findById(id);
+  return User.findById(id).populate('profile')
 };
 const getRefreshUserById = async (id) => {
-  return User.findById(id);
+  return User.findById(id)
 };
 
 /**
@@ -87,16 +86,18 @@ const createProfile = async (profileBody) => {
   if (await Profile.isProfileCreated(profileBody.user)) {
     throw new ApiError(httpStatus.BAD_REQUEST, "Profile is already created");
   }
-  return Profile.create(profileBody);
-
+  const profile = await Profile.create(profileBody);
+  const { _id } = profile;
+  await updateUserById(profileBody.user, { profile: _id });
+  return profile;
 };
 const createReport = async (report) => {
   return Report.create(report);
 };
 
 const getUserReportsById = async (user) => {
-  console.log(user)
-  return Report.find({user:user});
+  console.log(user);
+  return Report.find({ user: user });
 };
 const getUserReportById = async (id) => {
   return Report.findById(id);

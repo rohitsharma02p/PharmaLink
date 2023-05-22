@@ -46,7 +46,7 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false
     },
-    profileId: {
+    profile: {
       type: mongoose.Types.ObjectId,
       ref: "Profile",
     },
