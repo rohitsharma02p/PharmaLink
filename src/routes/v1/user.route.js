@@ -1,25 +1,57 @@
-const express = require('express');
-const auth = require('../../middlewares/auth');
-const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const userController = require('../../controllers/user.controller');
+const express = require("express");
+const auth = require("../../middlewares/auth");
+const validate = require("../../middlewares/validate");
+const userValidation = require("../../validations/user.validation");
+const userController = require("../../controllers/user.controller");
+const { upload } = require("../../middlewares/multer");
 
 const router = express.Router();
 
 router
-  .route('/')
-  .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
-  .get(auth('getUsers'),  validate(userValidation.getUsers), userController.getUsers);
+  .route("/")
+  .post(
+    auth("manageUsers"),
+    validate(userValidation.createUser),
+    userController.createUser
+  )
+  .get(
+    auth("getUsers"),
+    validate(userValidation.getUsers),
+    userController.getUsers
+  );
 
 router
-  .route('/:userId')
-  .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
-  .patch(/* auth('manageUsers'), */ validate(userValidation.updateUser), userController.updateUser)
-  .delete(/* auth('manageUsers'),  */validate(userValidation.deleteUser), userController.deleteUser);
+  .route("/:userId")
+  .get(
+    auth("getUsers"),
+    validate(userValidation.getUser),
+    userController.getUser
+  )
+  .patch(
+    auth("manageUsers"),
+    validate(userValidation.updateUser),
+    userController.updateUser
+  )
+  .delete(
+    auth("manageUsers"),
+    validate(userValidation.deleteUser),
+    userController.deleteUser
+  );
 
+router
+  .route("/profile")
+  .post(
+    auth(),
+    validate(userValidation.createProfile),
+    userController.createProfile
+  );
 
-  router.route("/profile")
-  .post(auth(),validate(userValidation.createProfile),userController.createProfile)
+router
+  .route("/createReports")
+  .post(auth(), upload.single("report"), userController.createReport);
+
+router.route("/reportDetail/:reportId").get(userController.getReportDetail);
+router.route("/reports/:userId").get(userController.getReports);
 
 module.exports = router;
 

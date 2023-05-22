@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-const { User, Profile } = require("../models");
+const { User, Profile, Report } = require("../models");
 const ApiError = require("../utils/ApiError");
 
 /**
@@ -88,6 +88,16 @@ const createProfile = async (profileBody) => {
   }
   return Profile.create(profileBody);
 };
+const createReport = async (report) => {
+  return Report.create(report);
+};
+
+const getUserReportsById = async (user) => {
+  return Report.find(user);
+};
+const getUserReportById = async (id) => {
+  return Report.findById(id);
+};
 
 module.exports = {
   createUser,
@@ -97,5 +107,8 @@ module.exports = {
   updateUserById,
   deleteUserById,
   createProfile,
-  getRefreshUserById
+  getRefreshUserById,
+  createReport,
+  getUserReportsById,
+  getUserReportById
 };

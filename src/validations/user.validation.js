@@ -6,7 +6,7 @@ const createUser = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
-    role: Joi.string().required().valid("user", "admin","patient")
+    role: Joi.string().required().valid("user", "admin", "patient", "pharmacy")
   })
 };
 
@@ -34,7 +34,8 @@ const updateUser = {
     .keys({
       email: Joi.string().email(),
       password: Joi.string().custom(password),
-      name: Joi.string()
+      name: Joi.string(),
+      status: Joi.string()
     })
     .min(1)
 };
@@ -47,8 +48,8 @@ const deleteUser = {
 
 const createProfile = {
   body: Joi.object({
-    firstName:Joi.string(),
-    lastName:Joi.string(),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
     mobileNumber: Joi.string()
       .length(10)
       .pattern(/^[0-9]+$/)
