@@ -46,6 +46,10 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false
     },
+    profileId: {
+      type: mongoose.Types.ObjectId,
+      ref: "Profile",
+    },
 
     status: {
       type: String,
