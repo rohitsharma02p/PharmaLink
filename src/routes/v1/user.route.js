@@ -53,6 +53,9 @@ router
 router.route("/reportDetail/:reportId").get(userController.getReportDetail);
 router.route("/reports/:userId").get(userController.getReports);
 
+
+router.route("/isLoggedIn").get()
+
 module.exports = router;
 
 /**

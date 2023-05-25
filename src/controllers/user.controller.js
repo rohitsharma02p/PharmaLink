@@ -54,6 +54,7 @@ const createReport = catchAsync(async (req, res) => {
     fileurl = req.file.location;
   }
   const data = {
+    name:req.body.name ,
     report: fileurl ? fileurl : "",
     user: req.user?._id
   };
