@@ -53,6 +53,7 @@ const createReport = catchAsync(async (req, res) => {
   if (req.file) {
     fileurl = req.file.location;
   }
+  console.log(req.file)
   const data = {
     name:req.body.name ,
     report: fileurl ? fileurl : "",

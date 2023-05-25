@@ -96,7 +96,6 @@ const createReport = async (report) => {
 };
 
 const getUserReportsById = async (user) => {
-  console.log(user);
   return Report.find({ user: user });
 };
 const getUserReportById = async (id) => {
