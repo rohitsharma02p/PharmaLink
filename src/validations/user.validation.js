@@ -52,7 +52,6 @@ const createProfile = {
     firstName: Joi.string().required(),
     lastName: Joi.string().optional(),
     mobileNumber: Joi.string()
-      .length(10)
       .pattern(/^[0-9]+$/)
       .required(),
     emailAddress: Joi.string()
@@ -95,7 +94,6 @@ const createProfile = {
       zipPostalCode: Joi.string()
     }).required(),
     additionalMobileNumber: Joi.string()
-      .length(10)
       .pattern(/^[0-9]+$/)
       .optional(),
   })
