@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { paginate } = require("./plugins");
+const { paginate,toJSON } = require("./plugins");
 
 const profileSchema = new mongoose.Schema({
   user: {
@@ -7,7 +7,6 @@ const profileSchema = new mongoose.Schema({
     ref: "User",
     required: true
   },
-  
   firstName: {
     type: String,
     required: true
@@ -34,20 +33,79 @@ const profileSchema = new mongoose.Schema({
   bloodGroup: {
     type: String
   },
-  timeZone: {
+  registrationID:{
     type: String
   },
+  registrationDate:{
+    type: String
+  },
+
+  pharmacyName: {
+    type: String
+  },
+  medicalLicenseNumber: {
+    type: String
+  },
+  medicalLicense: {
+    type: String
+  },
+  tradeLicenseNumber: {
+    type: String
+  },
+  tradeLicense: {
+    type: String
+  },
+  trnNumber: {
+    type: String
+  },
+  vatCertificate: {
+    type: String
+  },
+  pharmacistInChargeName: {
+    type: String
+  },
+  pharmacistEmailAddress: {
+    type: String
+  },
+  pharmacistContactNumber: {
+    type: String
+  },
+  pharmacistMedicalLicenseNumber: {
+    type: String
+  },
+  pharmacistMedicalLicense: {
+    type: String
+  },
+  haveHealthInsurance: {
+    type: Boolean
+  },
+  healthInsurance:{
+    insuranceCompany: {
+      type: String,
+
+    },
+    policyNumber: {
+      type: String,
+
+    },
+    tpa: {
+      type: String,
+
+    },
+    frontDocument: {
+      type: String,
+
+    },
+    backDocument: {
+      type: String,
+
+    }
+  },
   address: {
-    houseNo: {
+    houseNo_streetName_area: {
       type: String
     },
-    streetName: {
-      type: String
-    },
-    area: {
-      type: String
-    },
-    colony: {
+    colony_locality: {
       type: String
     },
     city: {
@@ -59,17 +117,15 @@ const profileSchema = new mongoose.Schema({
     country: {
       type: String
     },
-    pincode: {
+    zipPostalCode: {
       type: String
     }
   },
   additionalMobileNumber: {
     type: String
-  },
-  language: {
-    type: String
   }
 });
+profileSchema.plugin(toJSON);
 profileSchema.plugin(paginate);
 
 profileSchema.statics.isProfileCreated = async function (

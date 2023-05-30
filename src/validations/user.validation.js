@@ -46,10 +46,11 @@ const deleteUser = {
   })
 };
 
+
 const createProfile = {
   body: Joi.object({
-    firstName: Joi.string(),
-    lastName: Joi.string(),
+    firstName: Joi.string().required(),
+    lastName: Joi.string().optional(),
     mobileNumber: Joi.string()
       .length(10)
       .pattern(/^[0-9]+$/)
@@ -57,32 +58,53 @@ const createProfile = {
     emailAddress: Joi.string()
       .email({ tlds: { allow: false } })
       .required(),
-    gender: Joi.string().valid("male", "female", "other").required(),
-    dateOfBirth: Joi.date().iso().required(),
+    gender: Joi.string().valid("male", "female", "other"),
+    dateOfBirth: Joi.date().iso(),
     bloodGroup: Joi.string()
       .valid("A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-")
       .required(),
-    timezone: Joi.string().required(),
+      registrationID:Joi.string(),
+      registrationDate:Joi.date().iso(),
+      pharmacyName:Joi.string(),
+      medicalLicenseNumber:Joi.string(),
+      medicalLicense:Joi.string(),
+      tradeLicenseNumber:Joi.string(),
+      tradeLicense: Joi.string(),
+      trnNumber:Joi.string(),
+      vatCertificate:Joi.string(),
+      pharmacistInChargeName:Joi.string(),
+      pharmacistEmailAddress: Joi.string(),
+      pharmacistContactNumber: Joi.string(),
+      pharmacistMedicalLicenseNumber:Joi.string(),
+      pharmacistMedicalLicense:Joi.string(),
+
+    haveHealthInsurance: Joi.boolean().optional(),
+    healthInsurance: Joi.object({
+      insuranceCompany: Joi.string(),
+      policyNumber: Joi.string(),
+      tpa: Joi.string(),
+      frontDocument: Joi.string(),
+      backDocument: Joi.string()
+    }).when('haveHealthInsurance', { is: true, then: Joi.required() }),
     address: Joi.object({
-      houseNo: Joi.string().required(),
-      streetName: Joi.string().required(),
-      area: Joi.string().required(),
-      colony: Joi.string().required(),
+      houseNo_streetName_area: Joi.string().required(),
+      colony_locality: Joi.string().required(),
       city: Joi.string().required(),
       state: Joi.string().required(),
-      country: Joi.string().required(),
-      pincode: Joi.string()
-        .length(6)
-        .pattern(/^[0-9]+$/)
-        .required()
-    }),
+      country: Joi.string(),
+      zipPostalCode: Joi.string()
+    }).required(),
     additionalMobileNumber: Joi.string()
       .length(10)
       .pattern(/^[0-9]+$/)
       .optional(),
-    language: Joi.string().required()
   })
 };
+
+
+
+
+
 
 module.exports = {
   createUser,

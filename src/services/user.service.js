@@ -1,6 +1,7 @@
 const httpStatus = require("http-status");
 const { User, Profile, Report } = require("../models");
 const ApiError = require("../utils/ApiError");
+const { Profiler } = require("winston");
 
 /**
  * Create a user
@@ -91,6 +92,13 @@ const createProfile = async (profileBody) => {
   await updateUserById(profileBody.user, { profile: _id });
   return profile;
 };
+
+
+const getProfileById = async (id) => {
+  return Profile.findById(id);
+};
+
+
 const createReport = async (report) => {
   return Report.create(report);
 };
@@ -113,5 +121,6 @@ module.exports = {
   getRefreshUserById,
   createReport,
   getUserReportsById,
-  getUserReportById
+  getUserReportById,
+  getProfileById
 };

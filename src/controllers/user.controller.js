@@ -37,6 +37,20 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 const createProfile = catchAsync(async (req, res) => {
+  const frontDocument = req.files["healthInsurance[frontDocument]"]&&[0]["location"];
+  const backDocument = req.files["healthInsurance[backDocument]"]&&[0]["location"];
+  const medicalLicense = req.files["medicalLicense"]&&[0]["location"];
+  const tradeLicense = req.files["tradeLicense"]&&[0]["location"];
+  const vatCertificate = req.files["vatCertificate"]&&[0]["location"];
+  const pharmacistMedicalLicense = req.files["pharmacistMedicalLicense"]&&[0]["location"];
+  if (req.body.healthInsurance) {
+    req.body.healthInsurance.frontDocument = frontDocument;
+    req.body.healthInsurance.backDocument = backDocument;
+  }
+  req.body.medicalLicense = medicalLicense;
+  req.body.tradeLicense = tradeLicense;
+  req.body.vatCertificate = vatCertificate;
+  req.body.pharmacistMedicalLicense = pharmacistMedicalLicense;
   req.body.user = req.user._id;
   const profile = await userService.createProfile(req.body);
   return res
@@ -44,6 +58,13 @@ const createProfile = catchAsync(async (req, res) => {
     .json({ message: "Profile created successfully", profile });
 });
 
+const getProfile = catchAsync(async (req, res) => {
+  const profile = await userService.getProfileById(req.user.profile);
+  if (!profile) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Profile of this user not found");
+  }
+  res.send(profile);
+});
 const createReport = catchAsync(async (req, res) => {
   if (!req.file) {
     throw new ApiError(400, "report field cannot be empty");
@@ -53,9 +74,9 @@ const createReport = catchAsync(async (req, res) => {
   if (req.file) {
     fileurl = req.file.location;
   }
-  console.log(req.file)
+  console.log(req.file);
   const data = {
-    name:req.body.name ,
+    name: req.body.name,
     report: fileurl ? fileurl : "",
     user: req.user?._id
   };
@@ -89,5 +110,6 @@ module.exports = {
   createProfile,
   createReport,
   getReports,
-  getReportDetail
+  getReportDetail,
+  getProfile
 };

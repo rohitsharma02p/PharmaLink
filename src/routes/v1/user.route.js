@@ -7,6 +7,38 @@ const { upload } = require("../../middlewares/multer");
 
 const router = express.Router();
 
+
+
+router
+  .route("/profile")
+  .post(
+    auth(),
+    upload.fields([
+      { name: "healthInsurance[frontDocument]", maxCount: 5 },
+      { name: "healthInsurance[backDocument]", maxCount: 3 },
+      { name: "medicalLicense", maxCount: 3 },
+      { name: "tradeLicense", maxCount: 3 },
+      { name: "vatCertificate", maxCount: 3 },
+      { name: "pharmacistMedicalLicense", maxCount: 3 },
+    ]),
+    validate(userValidation.createProfile),
+    userController.createProfile
+  )
+  .get(
+    auth(),
+    userController.getProfile
+  );
+
+router
+  .route("/createReports")
+  .post(auth(), upload.single("report"), userController.createReport);
+
+router.route("/reportDetail/:reportId").get(userController.getReportDetail);
+router.route("/reports/:userId").get(userController.getReports);
+
+
+router.route("/isLoggedIn").get()
+
 router
   .route("/")
   .post(
@@ -37,24 +69,6 @@ router
     validate(userValidation.deleteUser),
     userController.deleteUser
   );
-
-router
-  .route("/profile")
-  .post(
-    auth(),
-    validate(userValidation.createProfile),
-    userController.createProfile
-  );
-
-router
-  .route("/createReports")
-  .post(auth(), upload.single("report"), userController.createReport);
-
-router.route("/reportDetail/:reportId").get(userController.getReportDetail);
-router.route("/reports/:userId").get(userController.getReports);
-
-
-router.route("/isLoggedIn").get()
 
 module.exports = router;
 
