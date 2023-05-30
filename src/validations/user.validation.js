@@ -87,10 +87,10 @@ const createProfile = {
       backDocument: Joi.string()
     }).when('haveHealthInsurance', { is: true, then: Joi.required() }),
     address: Joi.object({
-      houseNo_streetName_area: Joi.string().required(),
-      colony_locality: Joi.string().required(),
-      city: Joi.string().required(),
-      state: Joi.string().required(),
+      houseNo_streetName_area: Joi.string(),
+      colony_locality: Joi.string(),
+      city: Joi.string(),
+      state: Joi.string(),
       country: Joi.string(),
       zipPostalCode: Joi.string()
     }).required(),

@@ -84,10 +84,11 @@ const deleteUserById = async (userId) => {
 };
 
 const createProfile = async (profileBody) => {
-  if (await Profile.isProfileCreated(profileBody.user)) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Profile is already created");
-  }
-  const profile = await Profile.create(profileBody);
+  const filter = { user: profileBody.user };
+  const update = { $set: { ...profileBody } };
+  const options = { new: true, upsert: true, useFindAndModify:false };
+
+ const profile = await Profile.findOneAndUpdate(filter, update, options);
   const { _id } = profile;
   await updateUserById(profileBody.user, { profile: _id });
   return profile;
