@@ -37,12 +37,15 @@ const deleteUser = catchAsync(async (req, res) => {
 });
 
 const createProfile = catchAsync(async (req, res) => {
-  const frontDocument = req.files["healthInsurance[frontDocument]"]&&[0]["location"];
-  const backDocument = req.files["healthInsurance[backDocument]"]&&[0]["location"];
-  const medicalLicense = req.files["medicalLicense"]&&[0]["location"];
-  const tradeLicense = req.files["tradeLicense"]&&[0]["location"];
-  const vatCertificate = req.files["vatCertificate"]&&[0]["location"];
-  const pharmacistMedicalLicense = req.files["pharmacistMedicalLicense"]&&[0]["location"];
+  const frontDocument =
+    req.files["healthInsurance[frontDocument]"] && [0]["location"];
+  const backDocument =
+    req.files["healthInsurance[backDocument]"] && [0]["location"];
+  const medicalLicense = req.files["medicalLicense"] && [0]["location"];
+  const tradeLicense = req.files["tradeLicense"] && [0]["location"];
+  const vatCertificate = req.files["vatCertificate"] && [0]["location"];
+  const pharmacistMedicalLicense =
+    req.files["pharmacistMedicalLicense"] && [0]["location"];
   if (req.body.healthInsurance) {
     req.body.healthInsurance.frontDocument = frontDocument;
     req.body.healthInsurance.backDocument = backDocument;
@@ -101,6 +104,11 @@ const getReportDetail = catchAsync(async (req, res) => {
   res.send(reportDetail);
 });
 
+const addMedicine = catchAsync(async (req, res) => {
+  await userService.addMedicine(req.body,req.params.reportId);
+  res.status(200).json({ success: true, data: req.body });
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -111,5 +119,6 @@ module.exports = {
   createReport,
   getReports,
   getReportDetail,
-  getProfile
+  getProfile,
+  addMedicine
 };

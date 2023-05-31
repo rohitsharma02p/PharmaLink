@@ -46,7 +46,6 @@ const deleteUser = {
   })
 };
 
-
 const createProfile = {
   body: Joi.object({
     firstName: Joi.string().required(),
@@ -62,20 +61,20 @@ const createProfile = {
     bloodGroup: Joi.string()
       .valid("A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-")
       .required(),
-      registrationID:Joi.string(),
-      registrationDate:Joi.date().iso(),
-      pharmacyName:Joi.string(),
-      medicalLicenseNumber:Joi.string(),
-      medicalLicense:Joi.string(),
-      tradeLicenseNumber:Joi.string(),
-      tradeLicense: Joi.string(),
-      trnNumber:Joi.string(),
-      vatCertificate:Joi.string(),
-      pharmacistInChargeName:Joi.string(),
-      pharmacistEmailAddress: Joi.string(),
-      pharmacistContactNumber: Joi.string(),
-      pharmacistMedicalLicenseNumber:Joi.string(),
-      pharmacistMedicalLicense:Joi.string(),
+    registrationID: Joi.string(),
+    registrationDate: Joi.date().iso(),
+    pharmacyName: Joi.string(),
+    medicalLicenseNumber: Joi.string(),
+    medicalLicense: Joi.string(),
+    tradeLicenseNumber: Joi.string(),
+    tradeLicense: Joi.string(),
+    trnNumber: Joi.string(),
+    vatCertificate: Joi.string(),
+    pharmacistInChargeName: Joi.string(),
+    pharmacistEmailAddress: Joi.string(),
+    pharmacistContactNumber: Joi.string(),
+    pharmacistMedicalLicenseNumber: Joi.string(),
+    pharmacistMedicalLicense: Joi.string(),
 
     haveHealthInsurance: Joi.boolean().optional(),
     healthInsurance: Joi.object({
@@ -84,7 +83,7 @@ const createProfile = {
       tpa: Joi.string(),
       frontDocument: Joi.string(),
       backDocument: Joi.string()
-    }).when('haveHealthInsurance', { is: true, then: Joi.required() }),
+    }).when("haveHealthInsurance", { is: true, then: Joi.required() }),
     address: Joi.object({
       houseNo_streetName_area: Joi.string(),
       colony_locality: Joi.string(),
@@ -95,13 +94,25 @@ const createProfile = {
     }).required(),
     additionalMobileNumber: Joi.string()
       .pattern(/^[0-9]+$/)
-      .optional(),
+      .optional()
   })
 };
 
 
+const medicineSchema = Joi.object().keys({
+  name: Joi.string().required(),
+  quantity: Joi.number().required(),
+  duration: Joi.string().required(),
+  copay: Joi.number().required(),
+  currency: Joi.string().required()
+});
 
-
+const createMedicine = {
+  body: Joi.array().items(medicineSchema),
+  params: Joi.object().keys({
+    reportId: Joi.string().custom(objectId)
+  })
+} 
 
 
 module.exports = {
@@ -110,5 +121,6 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
-  createProfile
+  createProfile,
+  createMedicine
 };

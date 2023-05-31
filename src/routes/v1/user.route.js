@@ -30,14 +30,14 @@ router
   );
 
 router
-  .route("/createReports")
+  .route("/createReports") //Patient will upload the medical report
   .post(auth(), upload.single("report"), userController.createReport);
 
 router.route("/reportDetail/:reportId").get(userController.getReportDetail);
 router.route("/reports/:userId").get(userController.getReports);
 
+router.route("/addMedicine/:reportId").post(validate(userValidation.createMedicine),userController.addMedicine)
 
-router.route("/isLoggedIn").get()
 
 router
   .route("/")

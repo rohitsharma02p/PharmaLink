@@ -1,7 +1,6 @@
 const httpStatus = require("http-status");
-const { User, Profile, Report } = require("../models");
+const { User, Profile, Report, Medicine } = require("../models");
 const ApiError = require("../utils/ApiError");
-const { Profiler } = require("winston");
 
 /**
  * Create a user
@@ -35,10 +34,10 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findById(id).populate('profile')
+  return User.findById(id).populate("profile");
 };
 const getRefreshUserById = async (id) => {
-  return User.findById(id)
+  return User.findById(id);
 };
 
 /**
@@ -86,19 +85,17 @@ const deleteUserById = async (userId) => {
 const createProfile = async (profileBody) => {
   const filter = { user: profileBody.user };
   const update = { $set: { ...profileBody } };
-  const options = { new: true, upsert: true, useFindAndModify:false };
+  const options = { new: true, upsert: true, useFindAndModify: false };
 
- const profile = await Profile.findOneAndUpdate(filter, update, options);
+  const profile = await Profile.findOneAndUpdate(filter, update, options);
   const { _id } = profile;
   await updateUserById(profileBody.user, { profile: _id });
   return profile;
 };
 
-
 const getProfileById = async (id) => {
   return Profile.findById(id);
 };
-
 
 const createReport = async (report) => {
   return Report.create(report);
@@ -109,6 +106,18 @@ const getUserReportsById = async (user) => {
 };
 const getUserReportById = async (id) => {
   return Report.findById(id);
+};
+
+const addMedicine = async (medicineBody, reportId) => {
+  if (Array.isArray(medicineBody)) {
+    for (let medicine of medicineBody) {
+      await Medicine.create({
+        ...medicine,
+        reportId
+      });
+    }
+  }
+  return;
 };
 
 module.exports = {
@@ -123,5 +132,6 @@ module.exports = {
   createReport,
   getUserReportsById,
   getUserReportById,
-  getProfileById
+  getProfileById,
+  addMedicine
 };
