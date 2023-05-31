@@ -129,14 +129,15 @@ const addMedicine = async (medicineBody, reportId) => {
 
 const getScannedReportById = async (params) => {
   const { reportId, pharmacyId } = params;
-  console.log(reportId);
-  console.log(pharmacyId);
   const report = await Report.findById(reportId).select("-pharmacies");
   await updateReportById(reportId, pharmacyId);
   return report;
 };
 const getScannedReports = async (pharmacyId) => {
   return await Report.find({ pharmacies: pharmacyId }).select("-pharmacies");
+};
+const getMedicinesbyReportsId = async (reportId) => {
+  return await Medicine.find({ reportId })
 };
 
 module.exports = {
@@ -154,5 +155,6 @@ module.exports = {
   getProfileById,
   addMedicine,
   getScannedReportById,
-  getScannedReports
+  getScannedReports,
+  getMedicinesbyReportsId
 };

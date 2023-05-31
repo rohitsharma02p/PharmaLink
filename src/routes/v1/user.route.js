@@ -38,6 +38,7 @@ router.route("/reportDetail/:reportId").get(userController.getReportDetail);
 router.route("/reports/:userId").get(userController.getReports);
 
 router.route("/addMedicine/:reportId").post(validate(userValidation.createMedicine),userController.addMedicine)
+router.route("/getMedicines/:reportId").get(validate(userValidation.getMedicines),userController.getMedicines)
 
 router.route("/scanReport/:reportId/:pharmacyId").post(userController.scanReport)
 router.route("/getScanedReports/:pharmacyId").get(userController.getScanedReports)

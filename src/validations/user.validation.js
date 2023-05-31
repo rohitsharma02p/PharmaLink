@@ -113,6 +113,11 @@ const createMedicine = {
     reportId: Joi.string().custom(objectId)
   })
 } 
+const getMedicines = {
+  params: Joi.object().keys({
+    reportId: Joi.string().custom(objectId)
+  })
+} 
 
 
 module.exports = {
@@ -122,5 +127,6 @@ module.exports = {
   updateUser,
   deleteUser,
   createProfile,
-  createMedicine
+  createMedicine,
+  getMedicines
 };
