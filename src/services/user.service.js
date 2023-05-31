@@ -109,7 +109,7 @@ const createReport = async (report) => {
 };
 
 const getUserReportsById = async (user) => {
-  return Report.find({ user: user });
+  return Report.find({ user: user }).select("-pharmacies");
 };
 const getUserReportById = async (id) => {
   return Report.findById(id);
