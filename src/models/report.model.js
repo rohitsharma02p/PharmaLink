@@ -6,7 +6,6 @@ const reportSchema = mongoose.Schema(
     user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required: true
     },
     report: {
       type: String,
@@ -14,8 +13,13 @@ const reportSchema = mongoose.Schema(
     },
     name:{
       type: String,
-      required: true
-    }
+    },
+    pharmacies: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: "Pharmacy"
+      }
+    ]
   },
   {
     timestamps: true

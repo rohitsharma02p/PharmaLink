@@ -48,7 +48,7 @@ const deleteUser = {
 
 const createProfile = {
   body: Joi.object({
-    firstName: Joi.string().required(),
+    firstName: Joi.string(),
     lastName: Joi.string().optional(),
     mobileNumber: Joi.string()
       .pattern(/^[0-9]+$/)

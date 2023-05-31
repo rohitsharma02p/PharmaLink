@@ -109,6 +109,22 @@ const addMedicine = catchAsync(async (req, res) => {
   res.status(200).json({ success: true, data: req.body });
 });
 
+const scanReport = catchAsync(async (req, res) => {
+
+  const reportDetail = await userService.getScannedReportById(req.params);
+  if (!reportDetail) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Report Detail not found");
+  }
+  res.send(reportDetail);
+});
+const getScanedReports = catchAsync(async (req, res) => {
+  const reports = await userService.getScannedReports(req.params.pharmacyId);
+  if (!reports) {
+    throw new ApiError(httpStatus.NOT_FOUND, "Reports not found");
+  }
+  res.send(reports);
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -120,5 +136,7 @@ module.exports = {
   getReports,
   getReportDetail,
   getProfile,
-  addMedicine
+  addMedicine,
+  scanReport,
+  getScanedReports
 };

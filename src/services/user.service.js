@@ -67,6 +67,13 @@ const updateUserById = async (userId, updateBody) => {
   await user.save();
   return user;
 };
+const updateReportById = async (reportId, pharmacyId) => {
+  await Report.findByIdAndUpdate(
+    reportId,
+    { $push: { pharmacies: pharmacyId } },
+    { new: true }
+  );
+};
 
 /**
  * Delete user by id
@@ -120,6 +127,18 @@ const addMedicine = async (medicineBody, reportId) => {
   return;
 };
 
+const getScannedReportById = async (params) => {
+  const { reportId, pharmacyId } = params;
+  console.log(reportId);
+  console.log(pharmacyId);
+  const report = await Report.findById(reportId).select("-pharmacies");
+  await updateReportById(reportId, pharmacyId);
+  return report;
+};
+const getScannedReports = async (pharmacyId) => {
+  return await Report.find({ pharmacies: pharmacyId }).select("-pharmacies");
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -133,5 +152,7 @@ module.exports = {
   getUserReportsById,
   getUserReportById,
   getProfileById,
-  addMedicine
+  addMedicine,
+  getScannedReportById,
+  getScannedReports
 };
